@@ -1,0 +1,98 @@
+<h2>Packages</h2>
+<p>When our code gets longer, it becomes very difficult to maintain and keep track of all the modules included. In order to make the code more organized, we can resort to packages. In this topic, we'll learn what they are and how to use them correctly.</p>
+
+<h5 id="package-definition-and-structure" style="text-align: center;">Package definition and structure</h5>
+
+<p>A<strong> package</strong> is a way of structuring modules <strong>hierarchically</strong> with the help of the so-called <strong>"dotted module names"</strong>. Thus the module name <code class="language-python">sun.moon</code> designates a submodule named "moon" in a package named "sun".</p>
+
+<p>The possible<strong> structure</strong> might be the following:</p>
+
+<pre><code class="language-no-highlight">package/                           # first we name the main or top-level package
+            __init__.py            # this directory should be treated as a package
+            subpackage/            # we can add subpackage with extra modules
+                  __init__.py      # this directory should be treated as a subpackage
+                   artificial.py
+                   amateurs.py
+                   ...
+            subpackage2/                  
+                  __init__.py
+                  amazing.py
+                  animate.py
+                  barriers.py
+                  ...</code></pre>
+
+<p><strong>NB:</strong> it’s necessary to create <code class="language-python">__init__.py</code> files, that will make Python treat the directory as a package/subpackage. They can be empty or execute the initialization code for the package.</p>
+
+<h5 id="importing-and-referencing-packages" style="text-align: center;">Importing and referencing packages</h5>
+
+<p>Let us suppose we’d like to import a specific module from the package. There are two ways to import the "artificial" submodule from the subpackage:</p>
+
+<pre><code class="language-python">from package.subpackage import artificial </code></pre>
+
+<p>This method allows us to use the submodule content without naming the package and subpackage:</p>
+
+<pre><code class="language-python">artificial.function(arg1, arg2)</code></pre>
+
+<p>The second method is more straightforward:</p>
+
+<pre><code class="language-python">import package.subpackage.artificial      </code></pre>
+
+<p>After we’ve loaded the submodule in such a way, its content should be referenced with its <strong>full name</strong>:</p>
+
+<pre><code class="language-python">package.subpackage.artificial.function(arg1, arg2)</code></pre>
+
+<p>Apart from that, it’s possible to import a particular function from the submodule:</p>
+
+<pre><code class="language-python">from package.subpackage.artificial import function</code></pre>
+
+<p>After that, you can address the <code class="language-python">function()</code> directly, without specifying the full path to a module. </p>
+
+<p>The method of importing modules depends on your current program and needs. The main rule is readability!</p>
+
+<h5 id="import-from-advantages-and-disadvantages" style="text-align: center;">Import * from …: advantages and disadvantages</h5>
+
+<p>You can also use <code class="language-python">from package.subpackage import *</code>. This code will import all the submodules that your subpackage has, although you might not really need that. Moreover, it is really time-consuming and considered to be a bad practice. How can we manage these side-effects?</p>
+
+<p>The major thing to do is to provide the package with a particular<strong> index</strong> with the help of <code class="language-python">__all__ </code>statement that should be inserted into <code class="language-python">__init__.py</code> file. There you want to list the submodules to be imported while <code class="language-python">from package import *</code> operation is executed.</p>
+
+<pre><code class="language-python">__all__ = ["submodule1", "submodule10"]</code></pre>
+
+<h5 id="intra-package-references" style="text-align: center;">Intra package references</h5>
+
+<p>Python is even more powerful than you can imagine: you can refer to the submodules of <strong>siblings packages</strong> if needed. For instance, if you use the <code class="language-python">package.subpackage.artificial </code>and there you need something from  <code class="language-python">package.subpackage2.amazing</code>, you can import it by <code class="language-python">from package.subpackage2 import amazing </code>in the <strong>artificial.py</strong> file.</p>
+
+<p>You can also carry out the so-called<strong> "relative imports"</strong> that use leading dots to indicate the current and parent packages involved. </p>
+
+<pre><code class="language-python">from . import artificial    # one dot means addressing to a current package/subpackage
+
+from .. import subpackage2  # two dots mean addressing to a parent package/subpackage
+
+from ..subpackage2 import amazing</code></pre>
+
+<h5 id="pep-time" style="text-align: center;">PEP Time!</h5>
+
+<p>Using<strong> wildcard imports</strong> (<code class="language-python"><tt>from &lt;module&gt; import *</tt></code>) is considered bad practice, as they make it unclear which names are present in the namespace, confusing both readers and many automated tools. </p>
+
+<p>Absolute imports are recommended, as they are usually more readable. They also give better error messages if something goes wrong:</p>
+
+<pre><code class="language-python">import package.subpackage.amateurs
+from package.mypackage import amateurs</code></pre>
+
+<p>Explicit relative imports are also acceptable, especially when dealing with complex package layouts where using absolute imports would be unnecessarily verbose:</p>
+
+<pre><code class="language-python">from . import animate           # in amazing.py, for example
+from .barriers import function  # in animate.py, for example</code></pre>
+
+<p>Standard library code should avoid complex package layouts and always use absolute imports.</p>
+
+<h5 id="conclusion" style="text-align: center;">Conclusion</h5>
+
+<ul>
+	<li style="text-align: center;">
+	<p style="text-align: left;">Using packages is a very good way to structure your code.</p>
+	</li>
+	<li>
+	<p>Packages make your project simpler to perceive. They allow reusing code more easily.</p>
+	</li>
+	<li>Different ways of importing have their own advantages and disadvantages. Remember one of the main rules of Python: readability counts!</li>
+</ul>

@@ -1,0 +1,15 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import string
+
+    # put your code here
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/15340#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sat, 08 Oct 2022 16:50:50 UTC
+record: -1
